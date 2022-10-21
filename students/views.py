@@ -11,11 +11,14 @@ from .models import Students
 class Student(View):
     def get(self,  request, *args, **kwargs):
         Students_all = serializers.serialize('json', Students.objects.all())
-        return JsonResponse(json.loads  (Students_all), safe=False)
+        return JsonResponse(json.loads(Students_all), safe=False)
 
     def post(self,  request):
         Students.objects.create(**json.loads(request.body))
         return JsonResponse("post", safe=False)
+
+
+class StudentID(View):
 
     def put(self,  request, id):
         Students.objects.filter(id=id).update(**json.loads(request.body))
