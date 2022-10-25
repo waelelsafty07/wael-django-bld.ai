@@ -1,7 +1,5 @@
 
 from django.urls import path
-
-from students import views
 from .views import Student, StudentID
 
 urlpatterns = [
