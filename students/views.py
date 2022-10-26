@@ -1,36 +1,35 @@
-import json
 from django.shortcuts import render
-from django.views import View
-from django.http import JsonResponse
-from django.core import serializers
-from .forms import StudentForm
-
+from rest_framework import mixins
+from rest_framework import generics
 from .models import Students
-# Create your views here.
+from .serializers import StudentSerializer
 
 
-class Student(View):
-    def get(self,  request, *args, **kwargs):
-        Students_all = serializers.serialize('json', Students.objects.all())
-        return JsonResponse(json.loads(Students_all), safe=False)
+class StudentsView(generics.GenericAPIView,
+                   mixins.ListModelMixin,
+                   mixins.CreateModelMixin,
+                   ):
+    queryset = Students.objects.all()
+    serializer_class = StudentSerializer
 
-    def post(self,  request):
-        try:
-            form = StudentForm(data=json.loads(request.body))
-            if form.is_valid():
-                form.save()
-                return JsonResponse(form.data)
-            return JsonResponse(form.errors, status=422)
-        except:
-            return JsonResponse({'message': 'Unknown Format'}, status=500)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-class StudentID(View):
+class StudentsDetailsView(generics.GenericAPIView, mixins.RetrieveModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.DestroyModelMixin):
+    queryset = Students.objects.all()
+    serializer_class = StudentSerializer
 
-    def put(self,  request, id):
-        Students.objects.filter(id=id).update(**json.loads(request.body))
-        return JsonResponse("put", safe=False)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-    def delete(self,  request, id):
-        Students.objects.get(id=id).delete()
-        return JsonResponse("delete", safe=False)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

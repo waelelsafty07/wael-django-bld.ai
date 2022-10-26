@@ -1,4 +1,5 @@
 from django.db import models
+
 from parents.models import Parents
 from subjects.models import Subjects
 
@@ -6,20 +7,17 @@ from subjects.models import Subjects
 
 
 class Students(models.Model):  # table
-    # integer, increments automatically
-    id = models.AutoField(primary_key=True)
-    # column varchar = CharField()
     firstname = models.CharField(max_length=200)
     # can't be empty nor null - may be not applicable for sqlite
     lastname = models.TextField(max_length=200)
     age = models.IntegerField()
     email = models.CharField(max_length=255, unique=True)
 
+    mark = models.IntegerField()
     parent = models.ForeignKey(
-        Parents, related_name='parents', on_delete=models.CASCADE, null=False)
+        Parents, related_name='parents', on_delete=models.CASCADE)
     subjects = models.ManyToManyField(
-        Subjects, related_name='subjects')
-    mark = models.IntegerField(null=True)
+        Subjects, related_name='parents')
 
     @property
     def full_name(self):
@@ -28,9 +26,6 @@ class Students(models.Model):  # table
     class Meta:
         db_table = 'students'
         ordering = ['age']  # default ordering without order_by
-
-        # add constraints on multiple columns - needs migration
-        unique_together = [['firstname', 'lastname']]
 
         indexes = [models.Index(
             fields=['firstname'], name='first_name_index')]

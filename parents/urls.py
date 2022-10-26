@@ -1,7 +1,7 @@
-from django.urls import path
-from .views import Parent, ParentID
+from django.urls import path, include
 
+from .views import ParentsDetailsView, ParentsView
 urlpatterns = [
-    path('', Parent.as_view()),
-    path('<int:id>', ParentID.as_view())
+    path('', ParentsView.as_view()),
+    path('<int:id>', ParentsDetailsView.as_view()),
 ]

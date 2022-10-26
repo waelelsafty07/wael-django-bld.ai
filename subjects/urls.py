@@ -1,9 +1,7 @@
+from django.urls import path, include
 
-from django.urls import path
-from students import views
-from .views import Subject, SubjectID
-
+from .views import SubjectsDetailsView, SubjectsView
 urlpatterns = [
-    path('', Subject.as_view()),
-    path('<int:id>', SubjectID.as_view())
+    path('', SubjectsView.as_view()),
+    path('<int:pk>', SubjectsDetailsView.as_view()),
 ]
