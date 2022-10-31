@@ -1,12 +1,18 @@
 from rest_framework import serializers
+from students.models import Students
 from .models import Parents
 
 
+class StudentSerializerList(serializers.ModelSerializer):
+    class Meta:
+        model = Students
+        fields = "__all__"
+
+
 class ParentSerializer(serializers.ModelSerializer):
-    # comment this line when using mixins
-    # to use products inside category, many: to deal with lists
-    # parent = ProductListSerializer(many=True)
+    childern = StudentSerializerList(
+        many=True)
 
     class Meta:
         model = Parents
-        fields ="__all__"
+        fields = "__all__"

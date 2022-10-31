@@ -32,8 +32,8 @@ class StudentSerializer(serializers.ModelSerializer):
 
     mark = serializers.IntegerField(validators=[check_mark])
 
-    parent = ParentSerializer()
-    subjects = SubjectSerializer()
+    parent = ParentSerializer(required=False, read_only=True)
+    subjects = SubjectSerializer(many=True, required=False, read_only=True)
 
     class Meta:
         model = Students

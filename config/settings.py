@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'parents',
     'subjects',
     'drf_yasg',
+    'users'
 ]
 
 MIDDLEWARE = [

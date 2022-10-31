@@ -32,6 +32,7 @@ from parents.serializers import ParentSerializer
 
 class SubjectSerializer(serializers.ModelSerializer):
     # students = StudentsListSerializer(many=True)
+    # name = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Subjects

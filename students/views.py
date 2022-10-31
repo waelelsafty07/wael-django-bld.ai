@@ -9,7 +9,7 @@ class StudentsView(generics.GenericAPIView,
                    mixins.ListModelMixin,
                    mixins.CreateModelMixin,
                    ):
-    queryset = Students.objects.all()
+    queryset = Students.objects.all().prefetch_related("subjects")
     serializer_class = StudentSerializer
 
     def get(self, request, *args, **kwargs):
